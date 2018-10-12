@@ -14,7 +14,10 @@ RUN \
     libtool           \
     libtool-bin       \
     python            \
+    unzip             \
+    zip               \
     zlib1g-dev     && \
+  docker-php-ext-install zip && \
   curl -LO https://github.com/apache/subversion/archive/${SVN_VERSION}.tar.gz && \
   tar -zxvf ${SVN_VERSION}.tar.gz  && \
   cd subversion-${SVN_VERSION}     && \
