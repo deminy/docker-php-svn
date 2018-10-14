@@ -1,6 +1,6 @@
 # Docker Image deminy/php-svn
 
-[![License](https://poser.pugx.org/deminy/docker-php-svn/license)](https://github.com/deminy/docker-php-svn)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/deminy/docker-php-svn/blob/master/LICENSE.txt)
 
 Dockerized test environments with different combination of PHP and Subversion versions built.
 
