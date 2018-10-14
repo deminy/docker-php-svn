@@ -2,54 +2,79 @@
 #
 # To build and push Docker images of different combination of PHP and Subversion versions.
 #
-# Sample usage:
-#     # To build images with predefined versions of PHP and Subversion.
-#     ./build.sh
-#     # To build and push images with predefined versions of PHP and Subversion.
-#     ./build.sh -p
-#     # To build an image with specific versions of PHP and Subversion.
-#     PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh
-#     # To build and push an image with specific versions of PHP and Subversion.
-#     PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh -p
-#
 
 set -e
 
+usage()
+{
+cat << EOF
+usage: $0
+
+This script builds a Docker image with specific versions of PHP and Subversion.
+
+OPTIONS:
+   -h | --help    Show this message
+   -p | --push    Push the image to the Docker Hub registry (optional)
+
+Sample commands:
+
+    # To build an image with specific versions of PHP and Subversion.
+    PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh
+
+    # To build and push an image with specific versions of PHP and Subversion.
+    PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh -p
+EOF
+}
+
 DOCKER_PUSH=
-for var in "$@"; do
-    if [ "${var}" = "-p" ] ; then
-        DOCKER_PUSH=true
-    fi
+while :; do
+    case $1 in
+        -h|-\?|--help)
+            usage
+            exit
+            ;;
+        -p|--push)
+            DOCKER_PUSH=true
+            ;;
+        --) # End of all options.
+            shift
+            break
+            ;;
+        -?*)
+            printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+            ;;
+        *) # Default case: If no more options then break out of the loop.
+            break
+    esac
+
+    shift
 done
 
 if [ -z "${PHP_VERSION}" ] ; then
-    PHP_VERSIONS=("7.0" "7.1" "7.2")
-else
-    PHP_VERSIONS=("${PHP_VERSION}")
+    echo "Error: environment variable 'PHP_VERSION' is empty or not set."
+    echo "       Please run command '$0 -h' to see help information."
+    exit 1
 fi
 if [ -z "${SVN_VERSION}" ] ; then
-    SVN_VERSIONS=("1.8.19" "1.9.9" "1.10.3")
-else
-    SVN_VERSIONS=("${SVN_VERSION}")
+    echo "Error: environment variable 'SVN_VERSION' is empty or not set."
+    echo "       Please run command '$0 -h' to see help information."
+    exit 1
 fi
 
-for PHP_VERSION in ${PHP_VERSIONS[@]} ; do
-    for SVN_VERSION in ${SVN_VERSIONS[@]} ; do
-        echo "Building image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
+echo "Building image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}."
 
-        sed "s/%%PHP_VERSION%%/${PHP_VERSION}/g" Dockerfile.tpl > Dockerfile
-        docker build \
-            --no-cache \
-            --build-arg SVN_VERSION=${SVN_VERSION} \
-            -t "deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}" .
+sed "s/%%PHP_VERSION%%/${PHP_VERSION}/g" Dockerfile.tpl > Dockerfile
+docker build \
+    --no-cache \
+    --build-arg SVN_VERSION=${SVN_VERSION} \
+    -t "deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}" .
 
-        if [ "${DOCKER_PUSH}" = "true" ] ; then
-            echo "Pushing image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
-            docker push "deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
-        fi
-
-        echo "Done building (and pushing) image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
-    done
-done
-
-echo "Done building (and pushing) all the images for repository deminy/php-svn."
+if [ "${DOCKER_PUSH}" = "true" ] ; then
+    echo "Pushing image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
+    docker push "deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
+    echo "Done building and pushing image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}."
+else
+    echo "Done building image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}."
+    echo "To push the image built to the Docker Hub registry, please run following command:"
+    echo "    docker push deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
+fi

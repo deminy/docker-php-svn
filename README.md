@@ -23,15 +23,7 @@ docker pull deminy/php-svn:php-7.2-svn-1.10.3
 ## Docker Build and Push Commands
 
 ```bash
-# To build images with all predefined versions of PHP and Subversion.
-./build.sh
-
-# To build and push images with all predefined versions of PHP and Subversion.
-./build.sh -p
-
 # To build an image with specific versions of PHP and Subversion.
-PHP_VERSION=7.0 SVN_VERSION=1.8.19 ./build.sh
-PHP_VERSION=7.1 SVN_VERSION=1.9.9  ./build.sh
 PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh
 
 # To build and push an image with specific versions of PHP and Subversion.
