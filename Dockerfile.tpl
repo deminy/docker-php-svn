@@ -5,6 +5,9 @@ FROM php:%%PHP_VERSION%%-cli
 ARG SVN_VERSION
 ENV SVN_VERSION $SVN_VERSION
 
+# We force to update the serf download URL for Subversion 1.9.4 and older since the link is broken.
+# @see https://svn.haxx.se/dev/archive-2016-11/0011.shtml Re: get-deps.sh: Serf Links Broken
+# @see https://github.com/apache/subversion/commit/7497ebb9ef407c299aa7ac8a073a45086e580e8e
 RUN \
   apt-get update  && \
   apt-get install -y \
@@ -23,6 +26,7 @@ RUN \
   curl -LO https://github.com/apache/subversion/archive/${SVN_VERSION}.tar.gz && \
   tar -zxvf ${SVN_VERSION}.tar.gz  && \
   cd subversion-${SVN_VERSION}     && \
+  sed -i -e 's#http://serf.googlecode.com/svn/src_releases#https://archive.apache.org/dist/serf#g' ./get-deps.sh && \
   ./get-deps.sh serf               && \
   cd serf                          && \
   scons install                    && \
