@@ -18,11 +18,14 @@ OPTIONS:
 
 Sample commands:
 
-    # To build an image with specific versions of PHP and Subversion.
+    # To build image "deminy/php-svn" (the default image name) with specific versions of PHP and Subversion.
     PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh
 
-    # To build and push an image with specific versions of PHP and Subversion.
+    # To build and push image "deminy/php-svn" (the default image name) with specific versions of PHP and Subversion.
     PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh -p
+
+    # To build and push image "deminy/customized-image-name" with specific versions of PHP and Subversion.
+    PHP_VERSION=7.2 SVN_VERSION=1.10.3 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
 EOF
 }
 
@@ -60,21 +63,24 @@ if [ -z "${SVN_VERSION}" ] ; then
     echo "       Please run command '$0 -h' to see help information."
     exit 1
 fi
+if [ -z "${IMAGE_NAME}" ] ; then
+    IMAGE_NAME=deminy/php-svn
+fi
 
-echo "Building image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}."
+echo "Building image ${IMAGE_NAME}:php-${PHP_VERSION}-svn-${SVN_VERSION}."
 
 sed "s/%%PHP_VERSION%%/${PHP_VERSION}/g" Dockerfile.tpl > Dockerfile
 docker build \
     --no-cache \
     --build-arg SVN_VERSION=${SVN_VERSION} \
-    -t "deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}" .
+    -t "${IMAGE_NAME}:php-${PHP_VERSION}-svn-${SVN_VERSION}" .
 
 if [ "${DOCKER_PUSH}" = "true" ] ; then
-    echo "Pushing image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
-    docker push "deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
-    echo "Done building and pushing image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}."
+    echo "Pushing image ${IMAGE_NAME}:php-${PHP_VERSION}-svn-${SVN_VERSION}"
+    docker push "${IMAGE_NAME}:php-${PHP_VERSION}-svn-${SVN_VERSION}"
+    echo "Done building and pushing image ${IMAGE_NAME}:php-${PHP_VERSION}-svn-${SVN_VERSION}."
 else
-    echo "Done building image deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}."
+    echo "Done building image ${IMAGE_NAME}:php-${PHP_VERSION}-svn-${SVN_VERSION}."
     echo "To push the image built to the Docker Hub registry, please run following command:"
-    echo "    docker push deminy/php-svn:php-${PHP_VERSION}-svn-${SVN_VERSION}"
+    echo "    docker push ${IMAGE_NAME}:php-${PHP_VERSION}-svn-${SVN_VERSION}"
 fi
