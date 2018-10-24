@@ -10,9 +10,7 @@ The Docker images have following software included:
 * [PHP CLI](http://php.net/manual/en/features.commandline.php)
 * [Composer](https://getcomposer.org)
 
-There are different combination of PHP and Subversion versions built. All available combinations can be found [here](https://hub.docker.com/r/deminy/php-svn/).
-
-## Docker Pull Commands
+There are different combination of PHP and Subversion versions built. All available combinations can be found [here](https://hub.docker.com/r/deminy/php-svn/). You may pull the images like following:
 
 ```bash
 docker pull deminy/php-svn:php-7.0-svn-1.8.19
@@ -23,11 +21,14 @@ docker pull deminy/php-svn:php-7.2-svn-1.10.3
 ## Docker Build and Push Commands
 
 ```bash
-# To build an image with specific versions of PHP and Subversion.
+# To build image "deminy/php-svn" (the default image name) with specific versions of PHP and Subversion.
 PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh
 
-# To build and push an image with specific versions of PHP and Subversion.
+# To build and push image "deminy/php-svn" (the default image name) with specific versions of PHP and Subversion.
 PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh -p
+
+# To build and push image "deminy/customized-image-name" with specific versions of PHP and Subversion.
+PHP_VERSION=7.2 SVN_VERSION=1.10.3 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
 ```
 
 ## References
