@@ -17,6 +17,7 @@ RUN \
     libssl1.0-dev    \
     libtool          \
     libtool-bin      \
+    libzip-dev       \
     python           \
     scons            \
     unzip            \
