@@ -19,13 +19,16 @@ OPTIONS:
 Sample commands:
 
     # To build image "deminy/php-svn" (the default image name) with specific versions of PHP and Subversion.
-    PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh
+    PHP_VERSION=7.1    SVN_VERSION=1.10.0 ./build.sh
+    PHP_VERSION=7.1.19 SVN_VERSION=1.10.0 ./build.sh
 
     # To build and push image "deminy/php-svn" (the default image name) with specific versions of PHP and Subversion.
-    PHP_VERSION=7.2 SVN_VERSION=1.10.3 ./build.sh -p
+    PHP_VERSION=7.1    SVN_VERSION=1.10.0 ./build.sh -p
+    PHP_VERSION=7.1.19 SVN_VERSION=1.10.0 ./build.sh -p
 
     # To build and push image "deminy/customized-image-name" with specific versions of PHP and Subversion.
-    PHP_VERSION=7.2 SVN_VERSION=1.10.3 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
+    PHP_VERSION=7.1    SVN_VERSION=1.10.0 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
+    PHP_VERSION=7.1.19 SVN_VERSION=1.10.0 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
 EOF
 }
 
