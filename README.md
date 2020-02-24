@@ -17,6 +17,7 @@ docker pull deminy/php-svn:php-7.0-svn-1.8.19
 docker pull deminy/php-svn:php-7.1-svn-1.9.9
 docker pull deminy/php-svn:php-7.2-svn-1.10.3
 docker pull deminy/php-svn:php-7.3-svn-1.11.0
+docker pull deminy/php-svn:php-7.4-svn-1.13.0
 # or, more specifically:
 docker pull deminy/php-svn:php-7.1.19-svn-1.10.0
 ```
@@ -25,16 +26,16 @@ docker pull deminy/php-svn:php-7.1.19-svn-1.10.0
 
 ```bash
 # To build image "deminy/php-svn" (the default image name) with specific versions of PHP and Subversion.
-PHP_VERSION=7.1    SVN_VERSION=1.10.0 ./build.sh
-PHP_VERSION=7.1.19 SVN_VERSION=1.10.0 ./build.sh
+PHP_VERSION=7.4   SVN_VERSION=1.13.0 ./build.sh
+PHP_VERSION=7.4.3 SVN_VERSION=1.13.0 ./build.sh
 
 # To build and push image "deminy/php-svn" (the default image name) with specific versions of PHP and Subversion.
-PHP_VERSION=7.1    SVN_VERSION=1.10.0 ./build.sh -p
-PHP_VERSION=7.1.19 SVN_VERSION=1.10.0 ./build.sh -p
+PHP_VERSION=7.4   SVN_VERSION=1.13.0 ./build.sh -p
+PHP_VERSION=7.4.3 SVN_VERSION=1.13.0 ./build.sh -p
 
 # To build and push image "deminy/customized-image-name" with specific versions of PHP and Subversion.
-PHP_VERSION=7.1    SVN_VERSION=1.10.0 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
-PHP_VERSION=7.1.19 SVN_VERSION=1.10.0 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
+PHP_VERSION=7.4   SVN_VERSION=1.13.0 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
+PHP_VERSION=7.4.3 SVN_VERSION=1.13.0 IMAGE_NAME=deminy/customized-image-name ./build.sh -p
 ```
 
 ## References
